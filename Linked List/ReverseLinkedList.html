@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="./ListNode.js"></script>
+<script src="./ReverseLinkedList.js"></script>
+</head>
+
+<body>
+
+<h1>reverse linked list</h1>
+
+<p id="p1">before reverse</p>
+<p id="p2">after reverse</p>
+
+<script>
+	function onClick()
+	{		
+		var input = prompt("please input the list, split by comma", "1,2,3,4,5");
+
+		if (input !== null) {
+			document.getElementById("p1").innerHTML = input;
+
+			var strArray = input.split(",");
+			var nodeArray = new Array();
+
+			for (var i = 0; i < strArray.length; i++) {
+				var node = new ListNode(strArray[i])
+				nodeArray.push(node);
+				if (i !== 0) {
+					nodeArray[i - 1].next = node;
+				}
+			}
+
+			var node = reverseList(nodeArray[0]);
+			var resultArr = new Array();
+			while(node !== null)
+			{
+				resultArr.push(node.val);
+				node = node.next;
+			}
+
+			document.getElementById("p2").innerHTML = resultArr.join(",");
+		}
+	}
+</script>
+
+<button type="button" onclick="onClick()">reverse linked list</button>
+
+</body>
+
+</html>
+			     
