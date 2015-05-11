@@ -29,25 +29,24 @@ var isSameTreeIteratively = function(p, q) {
 	if (p === null) return q === null;
 	if (q === null) return p === null;
 
-	var pStack = new Array(p);
-	var qStack = new Array(q);
+	var stack = new Array(p, q);
 
-	while (pStack.length > 0) {
-		var node1 = pStack.shift();
-		var node2 = qStack.shift();
+	while (stack.length > 0) {
+		var node1 = stack.shift();
+		var node2 = stack.shift();
 
 		if (node1.val !== node2.val) return false;
 
 		if (node1.left !== null && node2.left !== null) {
-			pStack.push(node1.left);
-			qStack.push(node2.left);
+			stack.push(node1.left);
+			stack.push(node2.left);
 		} else if (!(node1.left === null && node2.left === null)) {
 			return false;
 		}
 
 		if (node1.right !== null && node2.right !== null) {
-			pStack.push(node1.right);
-			qStack.push(node2.right);
+			stack.push(node1.right);
+			stack.push(node2.right);
 		} else if (!(node1.right === null && node2.right === null)) {
 			return false;
 		}
