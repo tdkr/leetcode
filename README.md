@@ -1,3 +1,3 @@
 # leetcode
 
-javascript solutions for leetcode
+my solutions for leetcode
