@@ -49,19 +49,3 @@ public:
 private:
     vector<vector<int>> sumMatrix;
 };
-
-
-// Your NumMatrix object will be instantiated and called as such:
-// NumMatrix numMatrix(matrix);
-// numMatrix.sumRegion(0, 1, 2, 3);
-// numMatrix.sumRegion(1, 2, 3, 4);
-
-
-int main(int argc, const char * argv[]) {
-    vector<vector<int>> matrix = vector<vector<int>>{{3,0,1,4,2},{5,6,3,2,1},{1,2,0,1,5},{4,1,0,1,7},{1,0,3,0,5}};
-    NumMatrix numMatrix = NumMatrix(matrix);
-    cout << numMatrix.sumRegion(2, 1, 4, 3) << endl;
-    cout << numMatrix.sumRegion(1, 1, 2, 2) << endl;
-    cout << numMatrix.sumRegion(1, 2, 2, 4) << endl;
-    return 0;
-}
