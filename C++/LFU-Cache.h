@@ -1,4 +1,4 @@
-#include <map>
+#include <unordered_map>
 #include <list>
 #include <iterator>
 using namespace std;
@@ -11,13 +11,13 @@ using namespace std;
 */
 class LFUCache {
 	int m_capacity = 0;
-	map<int, int> m_valueMap;
+	unordered_map<int, int> m_valueMap;
 
-	map<int, int> m_keyCountMap;
-	map<int, list<int>> m_countKeyMap;
-	map<int, list<int>::iterator> m_keyPosMap;
+	unordered_map<int, int> m_keyCountMap;
+	unordered_map<int, list<int>> m_countKeyMap;
+	unordered_map<int, list<int>::iterator> m_keyPosMap;
 
-	int m_maxCount = 1;
+	int m_leastCount = 1;
 
 public:
     LFUCache(int capacity) {
@@ -27,13 +27,16 @@ public:
 	void updateFrequency(int key) {
 		int prevCount = m_keyCountMap[key];
 		m_keyCountMap[key]++;
+		int curCount = m_keyCountMap[key];
 		if (prevCount > 0) {
 			auto it = m_keyPosMap[key];
 			m_countKeyMap[prevCount].erase(it);
 		}
-		int curCount = m_keyCountMap[key];
-		if (curCount > m_maxCount) {
-			m_maxCount = curCount;
+		if (prevCount == m_leastCount && m_countKeyMap[prevCount].size() == 0) {
+			m_leastCount = curCount;
+		}
+		if (curCount < m_leastCount) {
+			m_leastCount = curCount;
 		}
 		auto it = m_countKeyMap[curCount].insert(m_countKeyMap[curCount].begin(), key);
 		m_keyPosMap[key] = it;
@@ -61,19 +64,15 @@ public:
     	}
     	else {
 			while (m_valueMap.size() >= m_capacity) {
-				for (int i = 1; i <= m_maxCount; i++)
-				{
-					if (m_countKeyMap[i].size() > 0) {
-						int delkey = m_countKeyMap[i].back();
-						m_countKeyMap[i].pop_back();
-						m_keyCountMap[delkey] = 0;
-						m_keyPosMap[delkey] = m_countKeyMap[0].end();
-						it = m_valueMap.find(delkey);
-						if (it != m_valueMap.end()) {
-							m_valueMap.erase(it);
-							break;
-						}
-					}
+				int delkey = m_countKeyMap[m_leastCount].back();
+				m_countKeyMap[m_leastCount].pop_back();
+				m_keyCountMap[delkey] = 0;
+				m_keyPosMap[delkey] = m_countKeyMap[0].end();
+				m_leastCount = 1;
+				it = m_valueMap.find(delkey);
+				if (it != m_valueMap.end()) {
+					m_valueMap.erase(it);
+					break;
 				}
 			}
 			m_valueMap[key] = value;
