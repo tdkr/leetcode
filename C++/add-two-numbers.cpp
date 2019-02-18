@@ -13,6 +13,7 @@ Explanation: 342 + 465 = 807.
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
