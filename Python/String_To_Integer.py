@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """String To Integer(atoi)
 mplement atoi which converts a string to an integer.
 
