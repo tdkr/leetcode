@@ -1,5 +1,5 @@
-/**
-https://leetcode.com/problems/longest-palindromic-substring/description/
+/**longest-palindromic-substring
+https://leetcode.com/problems/longest-palindromic-substring/
 Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
 
 Example 1:
@@ -11,9 +11,6 @@ Example 2:
 
 Input: "cbbd"
 Output: "bb"
-
-ref:
-https://leetcode.com/problems/longest-palindromic-substring/solution/
 **/
 
 #include <iostream>
@@ -38,7 +35,7 @@ class Solution
         {
             if (s.size() - i <= max_len / 2)
                 break;
-            int j = i, k = i;
+            int j = i, k = i; //从位置i开始往两边移动，直到字符不相等
             while (k < s.size() - 1 && s[k + 1] == s[k])
                 ++k; // Skip duplicate characters.
             i = k + 1;
