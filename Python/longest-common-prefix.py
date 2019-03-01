@@ -17,6 +17,19 @@ class Solution:
                     return firstStr[0:index]
         return firstStr
 
+    # def longestCommonPrefix(self, strs: 'List[str]') -> 'str':
+    #     if not strs:
+    #         return ''
+        
+    #     s1 = min(strs)
+    #     s2 = max(strs)
+        
+    #     for i, v in enumerate(s1):
+    #         if v != s2[i]:
+    #             return s1[:i]
+                    
+    #     return s1
+
 print(Solution().longestCommonPrefix([
     # "flower", "flow", "flight",
     "dog","racecar","car"
