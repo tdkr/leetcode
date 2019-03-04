@@ -2,7 +2,11 @@
 
 """Merge k Sorted Lists
 https://leetcode.com/problems/merge-k-sorted-lists/
+
+use PriorityQueue to sort nodes
 """
+
+from queue import PriorityQueue
 
 # Definition for singly-linked list.
 class ListNode:
@@ -11,7 +15,7 @@ class ListNode:
         self.next = None
 
 class Solution:
-    def mergeTwoList(self, l1: 'ListNode', l2: 'ListNode') -> 'ListNode':
+    def mergeTwoLists(self, l1: 'ListNode', l2: 'ListNode') -> 'ListNode':
         dummy = ListNode(-1)
         p = dummy
         while True:
@@ -34,7 +38,7 @@ class Solution:
         return res
 
 
-    def mergeKLists(self, lists: 'List[ListNode]') -> 'ListNode':
+    def mergeKLists0(self, lists: 'List[ListNode]') -> 'ListNode':
         if len(lists) == 0:
             return None
 
@@ -43,6 +47,35 @@ class Solution:
 
         ret = lists[0]
         for i in range(1, len(lists)):
-            ret = self.mergeTwoList(ret, lists[i])
+            ret = self.mergeTwoLists(ret, lists[i])
 
         return ret
+
+    def mergeKLists(self, lists: 'List[ListNode]') -> 'ListNode':
+        pq = PriorityQueue()
+
+        class wrapper:
+            def __init__(self, node):
+                self.node = node
+                
+            def __lt__(self, value):
+                return value.node.val > self.node.val
+
+        for head in lists:
+            if head != None:
+                pq.put(wrapper(head))
+
+        head = ListNode(0)
+        p = head
+        while not pq.empty():
+            node = pq.get().node
+            p.next = node
+            p = p.next
+            node = node.next
+            if node != None:
+                pq.put(wrapper(node))
+        return head.next
+
+
+        
+        
