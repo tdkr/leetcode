@@ -7,15 +7,23 @@ class Solution:
         """
         if nums == None or len(nums) < 2:
             return
+        
+        def swap(nums, i, j):
+            tmp = nums[i]
+            nums[i] = nums[j]
+            nums[j]  = tmp
+            
         for i in range(len(nums)-2, -1, -1):
-            value = nums[i]
-            for j in range(len(nums)-1, i, -1):
-                if value < nums[j]:
-                    v = nums.pop(j)
-                    nums.insert(i, v)
-                    nums[i+1:] = sorted(nums[i+1:])
-                    return
-        return list.sort(nums)
+            if nums[i] < nums[i+1]:
+                tail = nums[i+1:]
+                tail.reverse()
+                nums[i+1:] = tail
+                for j in range(i+1, len(nums)):
+                    if nums[j] > nums[i]:
+                        swap(nums, i, j)
+                        return
+        list.sort(nums)
+        return
         
 
 
