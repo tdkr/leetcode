@@ -18,7 +18,7 @@ class Solution:
     def longestValidParentheses(self, s: str) -> int:
         maxLen = 0
         right, left = -1, 0
-        dp = {}
+        dp = {} # mark the positon of last match of ")"
         for i in range(1, len(s)):
             if s[i] == ")":
                 if s[i-1] == "(":
