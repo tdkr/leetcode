@@ -13,22 +13,41 @@ Output: 6
 """
 
 import json
-
+ 
 class Solution:
-    def trap(self, height: 'List[int]') -> int:
-        idx = 0
-        start = height[idx]
-        totalArea = 0
-        curArea = 0
-        while idx < len(height) - 1:
-            idx += 1
-            if height[idx] >= start:
-                totalArea += curArea
-                start = height[idx]
-            else:
-                curArea += start - height[idx]
 
-        return totalArea
+    def trap(self, height: 'List[int]') -> int:
+        area = 0
+        left, right = 0, len(height)-1
+        while True:
+            # print(left, right, area)
+
+            # 忽略左边更小的柱子
+            while left < len(height)-1 and height[left] < height[left+1]:
+                left += 1
+            
+            # 忽略右边更小的柱子
+            while right > 0 and height[right] < height[right-1]:
+                right -= 1
+
+            if left >= right:
+                break
+
+            # 如果左边柱子比右边柱子低，则从左边开始往右遍历直到更高的柱子出现
+            # 反之亦然
+            if height[left] <= height[right]:
+                idx = left + 1
+                while idx < right and height[left] > height[idx]:
+                    area += height[left] - height[idx]
+                    idx += 1
+                left = idx
+            else:
+                idx = right - 1
+                while idx > left and height[right] > height[idx]:
+                    area += height[right] - height[idx]
+                    idx -= 1
+                right = idx
+        return area
 
 def stringToIntegerList(input):
     return json.loads(input)
